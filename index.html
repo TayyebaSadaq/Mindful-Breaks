@@ -12,7 +12,7 @@
 
 <body>
     <div class="app-container">
-    <h1>pomodoro</h1>
+    <h1>Mindful Breaks</h1>
     <div class="app-message">press start to begin</div>
     <div class="app-circle">
         <div class="circle-shape">
@@ -24,7 +24,34 @@
         <div class="app-counter-box">
         <p><span class="minutes">25</span>:<span class="seconds">00</span></p>
         </div>
-        <button class="btn-start">start</button>
+        <div class="app-controls">
+            <input class="input-minutes" type="number" min="1" max="120" placeholder="Set minutes">
+            <button class="btn-set">set</button>
+            <div class="button-group">
+                <button class="btn-start">start</button>
+                <button class="btn-stop">stop</button>
+            </div>
+        </div>
+    </div>
+    <div class="break-breathe-options" style="display:none; flex-direction:column; align-items:center; gap:16px; margin-top:40px;">
+        <button class="btn-break">Start Break</button>
+        <button class="btn-breathe">Breathing Exercise</button>
+    </div>
+    <div class="break-modal" style="display:none; flex-direction:column; align-items:center; gap:12px; margin-top:40px;">
+        <label for="break-minutes" style="color:#4a6fa5;">How long do you want your break?</label>
+        <div class="break-input-group">
+            <input id="break-minutes" class="input-break-minutes" type="number" min="1" max="60" placeholder="minutes">
+            <button class="btn-set-break">Set Break</button>
+        </div>
+        <button class="btn-back-main">Back</button>
+    </div>
+    <div class="breathe-modal" style="display:none; flex-direction:column; align-items:center; gap:12px; margin-top:40px;">
+        <label for="breathe-minutes" style="color:#4a6fa5;">How long do you want to breathe?</label>
+        <div class="breathe-input-group">
+            <input id="breathe-minutes" class="input-breathe-minutes" type="number" min="1" max="10" placeholder="minutes">
+            <button class="btn-set-breathe">Start Breathing</button>
+        </div>
+        <button class="btn-back-main">Back</button>
     </div>
     </div>
 </body>
