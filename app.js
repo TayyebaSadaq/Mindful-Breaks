@@ -56,6 +56,23 @@ const showBreakOrBreathe = () => {
     if (breakModal) breakModal.style.display = 'none';
     if (breatheModal) breatheModal.style.display = 'none';
     message.textContent = "Session complete! Have a break";
+
+    // Try to bring the tab into focus
+    if (document.hidden) {
+        window.focus();
+        // Also use Notification API if available and permitted
+        if ("Notification" in window) {
+            if (Notification.permission === "granted") {
+                new Notification("Mindful Breaks", { body: "Time for a break!" });
+            } else if (Notification.permission !== "denied") {
+                Notification.requestPermission().then(permission => {
+                    if (permission === "granted") {
+                        new Notification("Mindful Breaks", { body: "Time for a break!" });
+                    }
+                });
+            }
+        }
+    }
 };
 
 const showBreakModal = () => {
@@ -218,3 +235,10 @@ if (setBreakBtn) setBreakBtn.addEventListener('click', setBreakTimer);
 if (setBreatheBtn) setBreatheBtn.addEventListener('click', setBreatheTimer);
 // Add back button listeners
 backBtns.forEach(btn => btn.addEventListener('click', backToMain));
+
+// Ask for notification permission on first load
+window.addEventListener('DOMContentLoaded', () => {
+    if ("Notification" in window && Notification.permission === "default") {
+        Notification.requestPermission();
+    }
+});
