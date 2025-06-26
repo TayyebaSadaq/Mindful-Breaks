@@ -29,9 +29,9 @@ let isBreak = false; // Track if currently in break mode
 const startTimer = () => {
     if (state) {
         state = false;
-        const sessionAmount = Number.parseInt(session.textContent);
-        totalSeconds = sessionAmount * 60;
-        updateDisplay(totalSeconds); // Ensure display is correct at start
+        const sessionAmount = Number(session.textContent); // Use Number instead of parseInt
+        totalSeconds = Math.round(sessionAmount * 60); // Ensure correct conversion
+        updateDisplay(totalSeconds);
         myInterval = setInterval(updateSeconds, 1000);
     } else {
         alert('Session has already started.');
@@ -53,12 +53,12 @@ const stopTimer = () => {
 };
 
 const setTimer = () => {
-    let val = parseInt(inputMinutes.value, 10);
+    let val = Number(inputMinutes.value);
     if (!isNaN(val) && val > 0) {
         session.textContent = val;
         seconds.textContent = '00';
         stopTimer();
-        updateDisplay(val * 60);
+        updateDisplay(Math.round(val * 60));
     }
 };
 
@@ -130,7 +130,7 @@ const showBreatheModal = () => {
 };
 
 const setBreakTimer = () => {
-    let val = parseInt(breakInput.value, 10);
+    let val = Number(breakInput.value);
     if (!isNaN(val) && val > 0) {
         if (breakModal) breakModal.style.display = 'none';
         controls.style.display = 'flex';
