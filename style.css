@@ -330,6 +330,25 @@ button:hover, button:focus {
   color: #4a6fa5;
 }
 
+.btn-new-session {
+  width: 180px;
+  margin: 0 auto;
+  font-size: 1rem;
+  padding: 10px 0;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #7fc8a9 0%, #a3c7e7 100%);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  box-shadow: 0 2px 8px rgba(127,200,169,0.09);
+}
+
+.btn-new-session:hover, .btn-new-session:focus {
+  background: linear-gradient(90deg, #a3c7e7 0%, #7fc8a9 100%);
+  color: #4a6fa5;
+}
+
 @media (max-width: 400px) {
   .app-container {
     width: 98vw;

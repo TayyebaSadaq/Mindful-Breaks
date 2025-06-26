@@ -1,0 +1,11 @@
+{
+  "manifest_version": 3,
+  "name": "Mindful Breaks",
+  "version": "1.0",
+  "description": "Take mindful breaks while working!",
+  "action": {
+    "default_popup": "index.html",
+    "default_icon": "icon.png"
+  },
+  "permissions": ["storage", "notifications"]
+}

@@ -24,16 +24,27 @@ let breathingInterval;
 let breathingStep = 0;
 let breathingDuration = 0;
 let breathingElapsed = 0;
+let isBreak = false; // Track if currently in break mode
 
 const startTimer = () => {
     if (state) {
         state = false;
         const sessionAmount = Number.parseInt(session.textContent);
         totalSeconds = sessionAmount * 60;
+        updateDisplay(totalSeconds); // Ensure display is correct at start
         myInterval = setInterval(updateSeconds, 1000);
     } else {
         alert('Session has already started.');
     }
+};
+
+const updateDisplay = (totalSecs) => {
+    const minuteDiv = document.querySelector('.minutes');
+    const secondDiv = document.querySelector('.seconds');
+    let minutesLeft = Math.floor(totalSecs / 60);
+    let secondsLeft = totalSecs % 60;
+    minuteDiv.textContent = `${minutesLeft}`;
+    secondDiv.textContent = secondsLeft < 10 ? '0' + secondsLeft : secondsLeft;
 };
 
 const stopTimer = () => {
@@ -47,6 +58,7 @@ const setTimer = () => {
         session.textContent = val;
         seconds.textContent = '00';
         stopTimer();
+        updateDisplay(val * 60);
     }
 };
 
@@ -55,7 +67,35 @@ const showBreakOrBreathe = () => {
     document.querySelector('.break-breathe-options').style.display = 'flex';
     if (breakModal) breakModal.style.display = 'none';
     if (breatheModal) breatheModal.style.display = 'none';
-    message.textContent = "Session complete! Have a break";
+    message.textContent = isBreak
+        ? "Break complete! Ready for another session?"
+        : "Session complete! Have a break";
+    isBreak = false;
+
+    // Show "Start New Session" button if break just ended
+    let newSessionBtn = document.querySelector('.btn-new-session');
+    if (!newSessionBtn) {
+        newSessionBtn = document.createElement('button');
+        newSessionBtn.className = 'btn-new-session';
+        newSessionBtn.textContent = 'Start New Session';
+        newSessionBtn.style.marginTop = '12px';
+        newSessionBtn.onclick = () => {
+            document.querySelector('.break-breathe-options').style.display = 'none';
+            controls.style.display = 'flex';
+            // Reset timer to default or last session value
+            let defaultSession = inputMinutes.value && parseInt(inputMinutes.value, 10) > 0
+                ? parseInt(inputMinutes.value, 10)
+                : 25;
+            session.textContent = defaultSession;
+            seconds.textContent = '00';
+            updateDisplay(defaultSession * 60);
+            message.textContent = "press start to begin";
+            newSessionBtn.remove();
+        };
+        document.querySelector('.break-breathe-options').appendChild(newSessionBtn);
+    } else {
+        newSessionBtn.style.display = 'block';
+    }
 
     // Try to bring the tab into focus
     if (document.hidden) {
@@ -63,11 +103,11 @@ const showBreakOrBreathe = () => {
         // Also use Notification API if available and permitted
         if ("Notification" in window) {
             if (Notification.permission === "granted") {
-                new Notification("Mindful Breaks", { body: "Time for a break!" });
+                new Notification("Mindful Breaks", { body: isBreak ? "Break is over! Start a new session." : "Time for a break!" });
             } else if (Notification.permission !== "denied") {
                 Notification.requestPermission().then(permission => {
                     if (permission === "granted") {
-                        new Notification("Mindful Breaks", { body: "Time for a break!" });
+                        new Notification("Mindful Breaks", { body: isBreak ? "Break is over! Start a new session." : "Time for a break!" });
                     }
                 });
             }
@@ -96,6 +136,7 @@ const setBreakTimer = () => {
         controls.style.display = 'flex';
         session.textContent = val;
         seconds.textContent = '00';
+        isBreak = true;
         state = true;
         startTimer();
         message.textContent = "Break started!";
@@ -203,25 +244,13 @@ const stopBreathing = (finished = false) => {
 };
 
 const updateSeconds = () => {
-    const minuteDiv = document.querySelector('.minutes');
-    const secondDiv = document.querySelector('.seconds');
-
     totalSeconds--;
+    updateDisplay(totalSeconds);
 
-    let minutesLeft = Math.floor(totalSeconds / 60);
-    let secondsLeft = totalSeconds % 60;
-
-    if (secondsLeft < 10) {
-        secondDiv.textContent = '0' + secondsLeft;
-    } else {
-        secondDiv.textContent = secondsLeft;
-    }
-    minuteDiv.textContent = `${minutesLeft}`;
-
-    if (minutesLeft === 0 && secondsLeft === 0) {
+    if (totalSeconds <= 0) {
         bells.play();
         clearInterval(myInterval);
-        state = true; // Allow new session after completion
+        state = true;
         showBreakOrBreathe();
     }
 }
