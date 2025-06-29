@@ -1,6 +1,6 @@
 # 🌱 Mindful Breaks
 
-[Try it live!](https://tayyeba-codes.github.io/Mindful-Breaks/)
+[Try it live!](https://tayyebasadaq.github.io/Mindful-Breaks/)
 
 ---
 
@@ -28,4 +28,4 @@ Take care of yourself while you get things done!
 Made with 💚 for students, workers, and anyone who needs a gentle reminder to pause.
 
 ---
-[Visit Mindful Breaks](https://tayyeba-codes.github.io/Mindful-Breaks/)
+[Visit Mindful Breaks](https://tayyebasadaq.github.io/Mindful-Breaks/)
