@@ -1,4 +1,4 @@
-# 🌱 Mindful Breaks
+[![SVG Banners](https://svg-banners.vercel.app/api?type=luminance&text1=🌱Mindful%20Breaks&width=1000&height=300)](https://github.com/Akshay090/svg-banners)
 
 [Try it live!](https://tayyebasadaq.github.io/Mindful-Breaks/)
 
